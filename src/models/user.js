@@ -5,6 +5,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       connection.query(
         `SELECT
+        tb_user.id_user,
         tb_user.name,
         tb_user.email,
         tb_user.project_supported,

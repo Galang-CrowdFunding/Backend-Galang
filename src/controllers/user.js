@@ -5,6 +5,8 @@ const helpers = require('../helpers')
 const { JWT_KEY } = require('../configs')
 const { IP, port } = require('../configs')
 
+const uid = require('uid')
+
 module.exports = {
   getUser: async (request, response) => {
     try {
@@ -21,6 +23,7 @@ module.exports = {
       const hashPassword = helper.setPassword(request.body.password, salt)
       if (!request.file || Object.keys(request.file).length === 0) {
         const data = {
+          id_user: uid(),
           name: request.body.name,
           email: request.body.email,
           password: hashPassword.passwordHash,
@@ -35,6 +38,7 @@ module.exports = {
         const result = await userModel.register(data)
         helpers.response(response, 200, data)
       } const data = {
+        id_user: uid(),
         name: request.body.name,
         email: request.body.email,
         password: hashPassword.passwordHash,

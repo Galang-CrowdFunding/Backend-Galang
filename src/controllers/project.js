@@ -8,7 +8,7 @@ module.exports = {
     getAllProject: async (request, response) => {
         try {
           const searchName = request.query.searchName || ''
-          const sort = request.query.sort || 'project.name'
+          const sort = request.query.sort || 'tb_project.project_name'
           const type = request.query.type || 'ASC'
           const pagequery = request.query.page || 1
           const page = (pagequery - 1) || 0
@@ -20,8 +20,8 @@ module.exports = {
             page,
             limit
           }
-          const totalData = await projecttModel.count(data)
-          const result = await projectModel.getAll(data)
+          const totalData = await projectModel.count(data)
+          const result = await projectModel.getAllProject(data)
           const totalPages = Math.ceil(totalData / limit)
           const pager = {
             totalPages
@@ -53,7 +53,7 @@ module.exports = {
                 date_updated: new Date()
             }
             const result = await projectModel.insertProject(data)
-            miscHelper.response(response, 200, data)
+            miscHelper.response(response, 200, result)
         } catch (error) {
             console.log(error)
             miscHelper.customErrorResponse(response, 404, 'insert data failed')

@@ -5,6 +5,34 @@ const { ip, port } = require('../configs/index')
 require('dotenv/config')
 
 module.exports = {
+    getAllProject: async (request, response) => {
+        try {
+          const searchName = request.query.searchName || ''
+          const sort = request.query.sort || 'project.name'
+          const type = request.query.type || 'ASC'
+          const pagequery = request.query.page || 1
+          const page = (pagequery - 1) || 0
+          const limit = request.query.limit || 100
+          const data = {
+            searchName,
+            sort,
+            type,
+            page,
+            limit
+          }
+          const totalData = await projecttModel.count(data)
+          const result = await projectModel.getAll(data)
+          const totalPages = Math.ceil(totalData / limit)
+          const pager = {
+            totalPages
+          }
+          miscHelper.customResponse(response, 200, result, pager)
+    
+        } catch (error) {
+          console.log(error)
+          miscHelper.customErrorResponse(response, 400, 'Internal server error')
+        }
+      },
     insertProject: async (request, response) => {
         try {
             let id = uid()

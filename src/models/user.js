@@ -1,6 +1,25 @@
 const connection = require('../configs/mysql')
 
 module.exports = {
+  getUser: name => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT
+        tb_user.name,
+        tb_user.email,
+        tb_user.project_supported,
+        tb_user.total_amount,
+        tb_user.image
+        FROM
+        tb_user
+        `,
+        (error, result) => {
+          if (error) reject(new Error(error))
+          resolve(result)
+        }
+      )
+    })
+  },
   register: data => {
     return new Promise((resolve, reject) => {
       connection.query(
@@ -19,6 +38,42 @@ module.exports = {
               }
             )
           }
+        }
+      )
+    })
+  },
+  updateData: (data, userId) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'UPDATE tb_user SET ? WHERE id_user = ?',
+        [data, userId],
+        (error, result) => {
+          if (error) reject(new Error(error))
+          resolve(result)
+        }
+      )
+    })
+  },
+  deleteData: userId => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'DELETE FROM tb_user WHERE id_user = ?',
+        userId,
+        (error, result) => {
+          if (error) reject(new Error(error))
+          resolve(result)
+        }
+      )
+    })
+  },
+  checkEmail: email => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'SELECT * FROM tb_user WHERE email = ?',
+        email,
+        (error, result) => {
+          if (error) reject(new Error(error))
+          resolve(result)
         }
       )
     })

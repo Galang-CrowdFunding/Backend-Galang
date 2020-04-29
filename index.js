@@ -1,12 +1,14 @@
-const express = require('express')
-const app = express()
-const logger = require('morgan')
-const bodyParser = require('body-parser')
-const { port } = require('./src/configs')
-const mainNavigation = require('./src/routes')
+require('dotenv').config();
 
-app.listen(port, () => console.log(`This server is running on port ${port}`))
-app.use(logger('dev'))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true}))
-app.use('/', mainNavigation)
+const express = require('express');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const { port } = require('./src/configs');
+
+const app = express();
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.listen(port, () => console.log(`This server is running on port ${port}`));

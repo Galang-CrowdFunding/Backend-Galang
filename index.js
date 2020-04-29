@@ -6,6 +6,7 @@ const { port } = require('./src/configs')
 const mainNavigation = require('./src/routes')
 const cors = require('cors')
 
+app.use(cors('*'))
 app.listen(port, () => console.log(`This server is running on port ${port}`))
 app.use(logger('dev'))
 app.use(bodyParser.json())

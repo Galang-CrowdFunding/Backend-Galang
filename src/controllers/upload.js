@@ -1,29 +1,33 @@
 const multer = require('multer')
+
 const storage = multer.diskStorage({
-  destination: function (request, file, cb) {
+  destination: (request, file, cb) => {
     cb(null, './uploads')
   },
-  filename: function (request, file, cb) {
+  filename: (request, file, cb) => {
     cb(null, file.originalname)
   }
 })
+
 const fileFilter = (request, file, cb) => {
-  const fm = file.mimetype.toLowerCase()
-  if (fm === 'image/png' || fm === 'image/jpeg' || fm === 'image/jpg' || fm === 'image/gif') {
+  const filemim = file.mimetype.toLowerCase()
+  if (filemim === 'image/jpg' || filemim === 'image/png' || filemim === 'image/jpeg' || filemim === 'image/gif') {
     cb(null, true)
   } else {
-    cb(new Error('extention not supported').parse, false)
+    cb(new Error('File not support!'), false)
   }
 }
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 10240 * 1024 * 5 },
-  fileFilter
+  limits:
+        {
+          fileSize: 5 * 1024 * 1024
+        },
+  fileFilter: fileFilter
 })
 
-const uploadImages = upload.single('image')
-
+const uploadFile = upload.single('image')
 module.exports = {
-  uploadImages
+  uploadImage: uploadFile
 }

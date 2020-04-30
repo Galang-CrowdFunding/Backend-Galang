@@ -22,7 +22,6 @@ module.exports = {
         return new Promise((resolve, reject) => {
             connection.query(`SELECT * FROM tb_project WHERE tb_project.project_name LIKE '%${name}%' ORDER BY ${sort} ${type} LIMIT ${page},${limit}`, (error, result) => {
                 if (error) reject(new Error(error))
-                console.log(result, 'inii result')
                 resolve(result)
             })
         })
@@ -31,7 +30,10 @@ module.exports = {
         return new Promise((resolve, reject) =>
             connection.query('INSERT INTO tb_project SET ?', data, (error, result) => {
                 if (error) reject(new Error(error))
-                resolve(result)
+                connection.query('SELECT * FROM tb_project', (error, result) => {
+                    if (error) reject (new Error(error))
+                    resolve(result)
+                })
             })
         )
     }

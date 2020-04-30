@@ -12,7 +12,7 @@ module.exports = {
     const page = []
     const result = {}
 
-    for(var pages = 1; pages <= pagination.totalPages; pages++) {
+    for (var pages = 1; pages <= pagination.totalPages; pages++) {
       page[pages - 1] = pages
     }
     result.status = status || 200

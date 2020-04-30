@@ -31,7 +31,7 @@ module.exports = {
             connection.query('INSERT INTO tb_project SET ?', data, (error, result) => {
                 if (error) reject(new Error(error))
                 connection.query('SELECT * FROM tb_project', (error, result) => {
-                    if (error) reject (new Error(error))
+                    if (error) reject(new Error(error))
                     resolve(result)
                 })
             })

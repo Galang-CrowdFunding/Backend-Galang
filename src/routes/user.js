@@ -1,8 +1,12 @@
 const Route = require('express').Router();
 
-const { register } = require('../controllers/user');
-const { uploadImages } = require('../controllers/upload');
+const { register, login, getUser, updateData, deleteData } = require('../controllers/user');
+const { uploadImage } = require('../controllers/upload');
 
-Route.post('/register', uploadImages, register);
+Route.get('/', getUser)
+  .post('/register', uploadImage, register)
+  .post('/login', login)
+  .patch('/:userId', uploadImage, updateData)
+  .delete('/:userId', deleteData);
 
 module.exports = Route;

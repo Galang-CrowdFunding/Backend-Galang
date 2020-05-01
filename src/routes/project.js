@@ -1,11 +1,11 @@
 const express = require('express')
 const Route = express.Router()
+const { uploadImage } = require('../controllers/upload')
 
-const { uploadImages } = require('../controllers/upload')
-
-const {insertProject} = require('../controllers/project')
+const { insertProject, getAllProject } = require('../controllers/project')
 
 Route
-.post('/', uploadImages, insertProject)
+  .post('/', uploadImage, insertProject)
+  .get('/', getAllProject)
 
 module.exports = Route

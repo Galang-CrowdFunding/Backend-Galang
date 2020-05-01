@@ -1,33 +1,32 @@
-const multer = require('multer')
+const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination: (request, file, cb) => {
-    cb(null, './uploads')
+    cb(null, './uploads');
   },
   filename: (request, file, cb) => {
-    cb(null, file.originalname)
-  }
-})
+    cb(null, file.originalname);
+  },
+});
 
 const fileFilter = (request, file, cb) => {
-  const filemim = file.mimetype.toLowerCase()
+  const filemim = file.mimetype.toLowerCase();
   if (filemim === 'image/jpg' || filemim === 'image/png' || filemim === 'image/jpeg' || filemim === 'image/gif') {
-    cb(null, true)
+    cb(null, true);
   } else {
-    cb(new Error('File not support!'), false)
+    cb(new Error('File not support!'), false);
   }
-}
+};
 
 const upload = multer({
-  storage: storage,
-  limits:
-        {
-          fileSize: 5 * 1024 * 1024
-        },
-  fileFilter: fileFilter
-})
+  storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
+  fileFilter,
+});
 
-const uploadFile = upload.single('image')
+const uploadFile = upload.single('image');
 module.exports = {
-  uploadImage: uploadFile
-}
+  uploadImages: uploadFile,
+};

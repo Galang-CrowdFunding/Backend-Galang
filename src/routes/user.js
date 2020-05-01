@@ -1,12 +1,8 @@
-const express = require('express')
-const Route = express.Router()
+const Route = require('express').Router();
 
-const {
-  register
-} = require('../controllers/user')
-const { uploadImage } = require('../controllers/upload')
+const { register } = require('../controllers/user');
+const { uploadImages } = require('../controllers/upload');
 
-Route
-  .post('/register', uploadImage, register)
+Route.post('/register', uploadImages, register);
 
-module.exports = Route
+module.exports = Route;

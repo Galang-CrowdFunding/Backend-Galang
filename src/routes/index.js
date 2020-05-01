@@ -1,12 +1,12 @@
-const express = require('express')
-const Route = express.Router()
+const express = require('express');
 
-const userRoute = require('./user')
-const projectRouter = require('./project')
+const Route = express.Router();
 
-Route
-  .use('/user', userRoute)
+const userRoute = require('./user');
+const projectRouter = require('./project');
+
+Route.use('/user', userRoute)
   .use('/project', projectRouter)
-  .use('/uploads', express.static('./uploads'))
+  .use('/uploads', express.static('./uploads'));
 
-module.exports = Route
+module.exports = Route;

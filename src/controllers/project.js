@@ -1,7 +1,7 @@
 const projectModel = require('../models/project')
 const miscHelper = require('../helpers')
 const uid = require('uid')
-const { ip, port } = require('../configs/index')
+const { IP, port } = require('../configs/index')
 require('dotenv/config')
 
 module.exports = {
@@ -46,7 +46,7 @@ module.exports = {
         end_date: req.end_date,
         goal: req.goal,
         total_donors: req.total_donors,
-        image: `${ip}:${port}/uploads/${request.file.filename}`,
+        image: `${IP}:${port}/uploads/${request.file.filename}`,
         status: req.status,
         date_created: new Date(),
         date_updated: new Date()

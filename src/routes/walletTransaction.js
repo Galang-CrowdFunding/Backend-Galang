@@ -1,7 +1,7 @@
 const Route = require('express').Router();
 
-const { addWalletBalance } = require('../controllers/walletTransaction');
+const { addWalletBalance, userDonation } = require('../controllers/walletTransaction');
 
-Route.post('/addWalletBallance/:userId', addWalletBalance);
+Route.post('/addWalletBallance/:userId', addWalletBalance).post('/userDonation/:userId', userDonation);
 
 module.exports = Route;

@@ -3,6 +3,7 @@ const walletTransactionModel = require('../models/walletTransaction');
 const helpers = require('../helpers');
 
 module.exports = {
+  // Transaction wallet
   addWalletBalance: async (req, res) => {
     try {
       const { userId } = req.params;
@@ -24,7 +25,7 @@ module.exports = {
         };
         await walletTransactionModel.updateWalletBalance(userId, dataWallet);
         await walletTransactionModel.addWalletHistory(dataWalletHistory);
-        helpers.response(res, 200, [dataWallet, dataWalletHistory]);
+        helpers.response(res, 200, { dataWallet, dataWalletHistory });
       }
     } catch (error) {
       helpers.customErrorResponse(res, 400, `${error}`);
@@ -38,7 +39,7 @@ module.exports = {
       const idDompetHistory = uid();
       const idDonationHistory = uid();
       const currentDate = new Date();
-      if (balance != undefined) {
+      if (balance != undefined && balance > amount) {
         const dataWallet = {
           balance: balance - parseFloat(amount),
           date_updated: currentDate,
@@ -60,7 +61,9 @@ module.exports = {
         await walletTransactionModel.updateWalletBalance(userId, dataWallet);
         await walletTransactionModel.addWalletHistory(dataWalletHistory);
         await walletTransactionModel.addDonationHistory(dataDonationHistory);
-        helpers.response(res, 200, [dataWallet, dataWalletHistory, dataDonationHistory]);
+        helpers.response(res, 200, { dataWallet, dataWalletHistory, dataDonationHistory });
+      } else {
+        helpers.customErrorResponse(res, 400, `Your wallet balance is not enough!`);
       }
     } catch (error) {
       helpers.customErrorResponse(res, 400, `${error}`);

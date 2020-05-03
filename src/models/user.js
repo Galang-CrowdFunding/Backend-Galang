@@ -20,7 +20,7 @@ module.exports = {
         }
       );
     }),
-  register: (data, walletData) =>
+  register: data =>
     new Promise((resolve, reject) => {
       connection.query('SELECT * FROM tb_user WHERE email = ?', data.email, (error, result) => {
         if (result.length > 0) {
@@ -28,10 +28,7 @@ module.exports = {
         } else {
           connection.query('INSERT INTO tb_user SET ?', data, (error, result) => {
             if (error) reject(new Error(error));
-            connection.query('INSERT INTO tb_dompet SET ?', walletData, (error, result) => {
-              if (error) reject(new Error(error));
-              resolve(result);
-            });
+            resolve(result);
           });
         }
       });

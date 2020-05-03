@@ -32,24 +32,25 @@ module.exports = {
   },
   updateSlider: async (request, response) => {
     try {
-      const id_slider = request.params.id;
+      const id_slider = request.params.id_slider;
       if (!request.file || Object.keys(request.file).length === 0) {
         const data = {
           id_slider,
-          id_project: request.body,
+          id_project: request.body.id_project,
           date_updated: new Date(),
         };
         const result = await sliderModel.updateSlider(data);
-        return miscHelper.response(response, 200, result);
+        miscHelper.response(response, 200, result);
       }
+
       const data = {
         id_slider,
         image: `${IP}:${port}/uploads/${request.file.filename}`,
-        id_project: request.body,
+        id_project: request.body.id_project,
         date_updated: new Date(),
       };
       const result = await sliderModel.updateSlider(data);
-      return miscHelper.response(response, 200, result);
+      miscHelper.response(response, 200, result);
     } catch (error) {
       console.log(error);
       miscHelper.customErrorResponse(response, 404, "Update data failed");

@@ -7,5 +7,5 @@ const {insertSlider, getSlider, updateSlider} = require('../controllers/slider')
 Route
 .post('/', uploadImage, insertSlider)
 .get('/', getSlider)
-.patch('/:id_slider', updateSlider)
+.patch('/:id_slider', uploadImage, updateSlider)
 module.exports = Route

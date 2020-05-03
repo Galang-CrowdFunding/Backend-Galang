@@ -1,8 +1,8 @@
-const sliderModel = require("../models/slider");
-const miscHelper = require("../helpers");
-const uid = require("uid");
-const { IP, port } = require("../configs/index");
-require("dotenv/config");
+const uid = require('uid');
+const sliderModel = require('../models/slider');
+const miscHelper = require('../helpers');
+const { IP, port } = require('../configs/index');
+require('dotenv/config');
 
 module.exports = {
   getSlider: async (request, response) => {
@@ -10,7 +10,7 @@ module.exports = {
       const result = await sliderModel.getSlider();
       miscHelper.response(response, 200, result);
     } catch (error) {
-      miscHelper.customErrorResponse(response, 404, "Internal server error!");
+      miscHelper.customErrorResponse(response, 404, 'Internal server error!');
     }
   },
   insertSlider: async (request, response) => {
@@ -27,7 +27,7 @@ module.exports = {
       miscHelper.response(response, 200, result);
     } catch (error) {
       console.log(error);
-      miscHelper.customErrorResponse(response, 404, "Insert data failed");
+      miscHelper.customErrorResponse(response, 404, 'Insert data failed');
     }
   },
   updateSlider: async (request, response) => {
@@ -52,7 +52,7 @@ module.exports = {
       return miscHelper.response(response, 200, result);
     } catch (error) {
       console.log(error);
-      miscHelper.customErrorResponse(response, 404, "Update data failed");
+      miscHelper.customErrorResponse(response, 404, 'Update data failed');
     }
   },
 };

@@ -1,12 +1,12 @@
 const Route = require('express').Router();
 
 const { register, login, getUser, updateData, deleteData } = require('../controllers/user');
-const { uploadImage } = require('../controllers/upload');
+const { uploadImages } = require('../controllers/upload');
 
 Route.get('/', getUser)
-  .post('/register', uploadImage, register)
+  .post('/register', uploadImages, register)
   .post('/login', login)
-  .patch('/:userId', uploadImage, updateData)
+  .patch('/:userId', uploadImages, updateData)
   .delete('/:userId', deleteData);
 
 module.exports = Route;

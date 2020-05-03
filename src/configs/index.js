@@ -8,5 +8,5 @@ module.exports = {
 
   port: process.env.APP_PORT,
   JWT_KEY: process.env.APP_KEY,
-  ip: process.env.APP_URI,
+  IP: process.env.APP_URI,
 };

@@ -32,7 +32,7 @@ module.exports = {
   },
   updateSlider: async (request, response) => {
     try {
-      const id_slider = request.params.id_slider;
+      const { id_slider } = request.params;
       if (!request.file || Object.keys(request.file).length === 0) {
         const data = {
           id_slider,
@@ -58,12 +58,12 @@ module.exports = {
   },
   deleteSlider: async (request, response) => {
     try {
-      const id_slider = request.params.id_slider;
-      const result = await sliderModel.deleteSlider(id_slider)
+      const { id_slider } = request.params;
+      const result = await sliderModel.deleteSlider(id_slider);
       miscHelper.response(response, 200, result);
     } catch (error) {
       console.log(error);
-      miscHelper.customErrorResponse(response, 404, "Delete data failed");
+      miscHelper.customErrorResponse(response, 404, 'Delete data failed');
     }
-  }
+  },
 };

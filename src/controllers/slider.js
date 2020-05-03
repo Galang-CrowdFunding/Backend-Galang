@@ -56,4 +56,14 @@ module.exports = {
       miscHelper.customErrorResponse(response, 404, "Update data failed");
     }
   },
+  deleteSlider: async (request, response) => {
+    try {
+      const id_slider = request.params.id_slider;
+      const result = await sliderModel.deleteSlider(id_slider)
+      miscHelper.response(response, 200, result);
+    } catch (error) {
+      console.log(error);
+      miscHelper.customErrorResponse(response, 404, "Delete data failed");
+    }
+  }
 };

@@ -1,15 +1,22 @@
 const connection = require('../configs/mysql');
 
 module.exports = {
-  // Wallet
   createWallet: walletData =>
     new Promise((resolve, reject) => {
       connection.query('INSERT INTO tb_dompet SET ?', walletData, (error, result) => {
-        console.log(error);
-
         if (error) reject(new Error(error));
         resolve(result);
       });
+    }),
+  getWallet: () =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        'SELECT tb_user.name, tb_user.email, tb_dompet.* FROM tb_dompet JOIN tb_user ON tb_user.id_user = tb_dompet.id_user',
+        (error, result) => {
+          if (error) reject(new Error(error));
+          resolve(result);
+        }
+      );
     }),
   getWalletById: userId =>
     new Promise((resolve, reject) => {
@@ -25,20 +32,11 @@ module.exports = {
         resolve(result);
       });
     }),
-  // Wallet history
-  addWalletHistory: dataWalletHistory =>
+  deleteWallet: idUser =>
     new Promise((resolve, reject) => {
-      connection.query(`INSERT INTO tb_dompet_history SET ?`, dataWalletHistory, (error, result) => {
+      connection.query(`DELETE FROM tb_dompet WHERE id_user = ?`, idUser, (error, result) => {
         if (error) reject(new Error(error));
-        resolve(result);
-      });
-    }),
-  // Donation
-  addDonationHistory: dataDonationHistory =>
-    new Promise((resolve, reject) => {
-      connection.query(`INSERT INTO tb_donation_history SET ?`, dataDonationHistory, (error, result) => {
-        if (error) reject(new Error(error));
-        resolve(result);
+        resolve(result[0]);
       });
     }),
 };

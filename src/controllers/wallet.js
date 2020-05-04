@@ -1,14 +1,23 @@
 const uid = require('uid');
-const walletTransactionModel = require('../models/walletTransaction');
+const walletModel = require('../models/wallet');
+const walletHistoryModel = require('../models/walletHistory');
+const donationHistoryModel = require('../models/donationHistory');
 const helpers = require('../helpers');
 
 module.exports = {
-  // Transaction wallet
+  getWallet: async (req, res) => {
+    try {
+      const result = await walletModel.getWallet();
+      helpers.response(res, 200, result);
+    } catch (error) {
+      helpers.customErrorResponse(res, 400, `${error}`);
+    }
+  },
   addWalletBalance: async (req, res) => {
     try {
       const { userId } = req.params;
       const { amount } = req.body;
-      const { id_dompet, balance } = await walletTransactionModel.getWalletById(userId);
+      const { id_dompet, balance } = await walletModel.getWalletById(userId);
       const idDompetHistory = uid();
       const currentDate = new Date();
       if (balance != undefined) {
@@ -23,8 +32,8 @@ module.exports = {
           amount,
           date_created: currentDate,
         };
-        await walletTransactionModel.updateWalletBalance(userId, dataWallet);
-        await walletTransactionModel.addWalletHistory(dataWalletHistory);
+        await walletModel.updateWalletBalance(userId, dataWallet);
+        await walletHistoryModel.addWalletHistory(dataWalletHistory);
         helpers.response(res, 200, { dataWallet, dataWalletHistory });
       }
     } catch (error) {
@@ -35,7 +44,7 @@ module.exports = {
     try {
       const { userId } = req.params;
       const { amount, idProject } = req.body;
-      const { id_dompet, balance } = await walletTransactionModel.getWalletById(userId);
+      const { id_dompet, balance } = await walletModel.getWalletById(userId);
       const idDompetHistory = uid();
       const idDonationHistory = uid();
       const currentDate = new Date();
@@ -58,12 +67,27 @@ module.exports = {
           amount,
           date_created: currentDate,
         };
-        await walletTransactionModel.updateWalletBalance(userId, dataWallet);
-        await walletTransactionModel.addWalletHistory(dataWalletHistory);
-        await walletTransactionModel.addDonationHistory(dataDonationHistory);
+        await walletModel.updateWalletBalance(userId, dataWallet);
+        await walletHistoryModel.addWalletHistory(dataWalletHistory);
+        await donationHistoryModel.addDonationHistory(dataDonationHistory);
         helpers.response(res, 200, { dataWallet, dataWalletHistory, dataDonationHistory });
       } else {
         helpers.customErrorResponse(res, 400, `Your wallet balance is not enough!`);
+      }
+    } catch (error) {
+      helpers.customErrorResponse(res, 400, `${error}`);
+    }
+  },
+  deleteWallet: async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const { id_dompet } = await walletModel.getWalletById(userId);
+      if (id_dompet != undefined) {
+        await walletHistoryModel.deleteWalletHistory(id_dompet);
+        await walletModel.deleteWallet(userId);
+        helpers.response(res, 200, `Delete Success!`);
+      } else {
+        helpers.customErrorResponse(res, 400, `Id user not found!`);
       }
     } catch (error) {
       helpers.customErrorResponse(res, 400, `${error}`);

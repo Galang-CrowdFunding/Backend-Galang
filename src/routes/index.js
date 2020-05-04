@@ -5,7 +5,7 @@ const Route = express.Router();
 const userRoute = require('./user');
 const projectRouter = require('./project');
 const sliderRoute = require('./slider');
-const walletRoute = require('./walletTransaction');
+const walletRoute = require('./wallet');
 
 Route.use('/user', userRoute)
   .use('/project', projectRouter)

@@ -4,7 +4,7 @@ const helpers = require('../helpers');
 const { JWT_KEY } = require('../configs');
 const { IP, port } = require('../configs');
 const userModel = require('../models/user');
-const walletModel = require('../models/walletTransaction');
+const walletModel = require('../models/wallet');
 const helper = require('../helpers');
 
 module.exports = {

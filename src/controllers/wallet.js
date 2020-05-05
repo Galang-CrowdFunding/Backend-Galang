@@ -83,7 +83,7 @@ module.exports = {
       const { userId } = req.params;
       const { id_dompet } = await walletModel.getWalletById(userId);
       if (id_dompet != undefined) {
-        await walletHistoryModel.deleteWalletHistory(id_dompet);
+        await walletHistoryModel.deleteWalletHistoryByDompetId(id_dompet);
         await walletModel.deleteWallet(userId);
         helpers.response(res, 200, `Delete Success!`);
       } else {

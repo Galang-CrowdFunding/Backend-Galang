@@ -37,9 +37,22 @@ module.exports = {
             })
         )
     },
-    deleteProject: (data) => {
+    updateProject: (data, projectId) => {
+        return new Promise((resolve, reject) => {
+          connection.query('UPDATE tb_project SET ? WHERE id_project = ?', [data, projectId], (error, result) => {
+            if (error) reject(new Error(error))
+            connection.query(`SELECT * FROM tb_project`, (error, result) => {
+              if (error) reject(new Error(error))
+              console.log('aaaaa', result)
+              resolve(result)
+            
+            })
+          })
+        })
+      },
+    deleteProject: (id) => {
         return new Promise((resolve, reject) =>
-            connection.query('INSERT INTO tb_project SET ?', data, (error, result) => {
+            connection.query('DELETE FROM tb_project WHERE id_project = ?', id, (error, result) => {
                 if (error) reject(new Error(error))
                 connection.query('SELECT * FROM tb_project', (error, result) => {
                     if (error) reject(new Error(error))

@@ -57,6 +57,56 @@ module.exports = {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'insert data failed')
     }
-  }
+  },
 
+  updateProject: async (request, response) => {
+    try {
+      const id_project = request.params.projectId
+      const req = request.body
+      if(!request.file || Object.keys(request.file).length === 0 ) {
+        const data = {
+          project_name: req.project_name,
+          id_admin: req.admin_id,
+          project_description: req.project_description,
+          project_location: req.project_location,
+          start_date: new Date(),
+          end_date: req.end_date,
+          goal: req.goal,
+          total_donors: req.total_donors,
+          status: req.status,
+          date_updated: new Date()
+        }
+        const result = await projectModel.updateProject(data, id_project)
+        miscHelper.response(response, 200, result)
+      }  else {
+      const data = {
+        project_name: req.project_name,
+        id_admin: req.admin_id,
+        project_description: req.project_description,
+        project_location: req.project_location,
+        start_date: new Date(),
+        end_date: req.end_date,
+        goal: req.goal,
+        total_donors: req.total_donors,
+        image: `${IP}:${port}/uploads/${request.file.filename}`,
+        status: req.status,
+        date_updated: new Date()
+      }
+      const result = await projectModel.updateProject(data, id_project)
+      miscHelper.response(response, 200, result)}
+    } catch (error) {
+      console.log(error)
+      miscHelper.customErrorResponse(response, 404, 'Internal server error!')
+    }
+  },
+deleteProject: async (request, response) => {
+  try {
+    const id_project = request.params.projectId
+    console.log(id_project, 'idproject')
+    const result = await projectModel.deleteProject (id_project)
+    miscHelper.response(response, 200, result)
+  } catch (error){
+    miscHelper.customErrorResponse(response, 404, 'Internal Server Error' )
+  }
+}
 }

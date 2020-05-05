@@ -1,20 +1,12 @@
-const express = require('express')
-const Route = express.Router()
+const Route = require('express').Router();
 
-const {
-  register,
-  login,
-  getUser,
-  updateData,
-  deleteData
-} = require('../controllers/user')
-const { uploadImage } = require('../controllers/upload')
+const { register, login, getUser, updateData, deleteData } = require('../controllers/user');
+const { uploadImages } = require('../controllers/upload');
 
-Route
-  .get('/', getUser)
-  .post('/register', uploadImage, register)
+Route.get('/', getUser)
+  .post('/register', uploadImages, register)
   .post('/login', login)
-  .patch('/:userId', uploadImage, updateData)
-  .delete('/:userId', deleteData)
+  .patch('/:userId', uploadImages, updateData)
+  .delete('/:userId', deleteData);
 
-module.exports = Route
+module.exports = Route;

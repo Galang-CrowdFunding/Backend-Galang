@@ -1,7 +1,26 @@
 const donationHistoryModel = require('../models/donationHistory');
 const helpers = require('../helpers');
+const uid = require ('uid')
 
 module.exports = {
+  insertDonation: async (request, response) => {
+    try {
+      const id_donation_history = uid();
+      const data = {
+        id_donation_history,
+        id_user = request.body.id_user,
+        id_project = request.body.id_project,
+        amount = request.body.amount,
+        date_created = new Date()
+      }
+      const result = await donationHistoryModel.insertDonation(data);
+      helpers.response(response, 200, result)
+    } catch (error) {
+      console.log(error);
+      helpers.customErrorResponse(response, 404, 'insert data failed')
+    }
+  },
+
   getDonationHistory: async (req, res) => {
     try {
       const result = await donationHistoryModel.getDonationHistory();

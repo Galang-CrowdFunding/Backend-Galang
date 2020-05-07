@@ -22,6 +22,16 @@ module.exports = {
         }
       );
     }),
+    getDonationSum: () =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT id_project, SUM(amount) AS total, COUNT(id_project) as donatur FROM tb_donation_history  where status ='BERHASIL' GROUP BY id_project`,
+        (error, result) => {
+          if (error) reject(new Error(error));
+          resolve(result);
+        }
+      );
+    }),
     addDonationHistory: dataDonationHistory =>
     new Promise((resolve, reject) => {
       connection.query(`INSERT INTO tb_donation_history SET ?`, dataDonationHistory, (error, result) => {

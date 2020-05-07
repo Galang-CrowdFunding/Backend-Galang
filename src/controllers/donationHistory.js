@@ -23,6 +23,16 @@ module.exports = {
     }
   },
 
+  
+  getDonationSum: async (req, res) => {
+    try {
+      const result = await donationHistoryModel.getDonationSum();
+      helpers.response(res, 200, result);
+    } catch (error) {
+      helpers.customErrorResponse(res, 400, `${error}`);
+    }
+  },
+
   deleteDonationHistory: async (req, res) => {
     try {
       const { donationHistoryId } = req.params;

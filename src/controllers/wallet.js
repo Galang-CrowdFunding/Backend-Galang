@@ -2,6 +2,7 @@ const uid = require('uid');
 const walletModel = require('../models/wallet');
 const walletHistoryModel = require('../models/walletHistory');
 const donationHistoryModel = require('../models/donationHistory');
+const userModel = require('../models/user')
 const helpers = require('../helpers');
 
 module.exports = {
@@ -67,10 +68,19 @@ module.exports = {
           amount,
           date_created: currentDate,
         };
+        const userDetails = await walletModel.getUserDetails(userId)
+        const total_amount = userDetails[0].total_amount + amount
+        const project_supported = userDetails[0].project_supported + 1
+        const dataUser = {
+          total_amount,
+          project_supported
+        }
+
         await walletModel.updateWalletBalance(userId, dataWallet);
         await walletHistoryModel.addWalletHistory(dataWalletHistory);
         await donationHistoryModel.addDonationHistory(dataDonationHistory);
-        helpers.response(res, 200, { dataWallet, dataWalletHistory, dataDonationHistory });
+        await userModel.updateUserDonation(dataUser, userId);
+        helpers.response(res, 200, { dataWallet, dataWalletHistory, dataDonationHistory, userModel });
       } else {
         helpers.customErrorResponse(res, 400, `Your wallet balance is not enough!`);
       }

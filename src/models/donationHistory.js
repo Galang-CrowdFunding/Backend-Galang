@@ -22,7 +22,7 @@ module.exports = {
         }
       );
     }),
-  addDonationHistory: dataDonationHistory =>
+    addDonationHistory: dataDonationHistory =>
     new Promise((resolve, reject) => {
       connection.query(`INSERT INTO tb_donation_history SET ?`, dataDonationHistory, (error, result) => {
         if (error) reject(new Error(error));

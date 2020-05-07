@@ -54,4 +54,12 @@ module.exports = {
         resolve(result);
       });
     }),
+
+    updateUserDonation: (data, userId) =>
+    new Promise ((resolve, reject) => {
+      connection.query(`UPDATE tb_user SET ? WHERE id_user = '${userId}'`,data, (error, result) => {
+        if(error) reject (new Error (error));
+        resolve(result)
+      })
+    })
 };

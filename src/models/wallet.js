@@ -39,4 +39,14 @@ module.exports = {
         resolve(result[0]);
       });
     }),
+  getUserDetails: idUser =>
+    new Promise((resolve, reject) => {
+      connection.query(`SELECT project_supported, total_amount from tb_user WHERE id_user = '${idUser}'`, (error, result) => {
+        if(error) reject (new Error (error));
+      resolve (result);
+    })
+})  
 };
+
+
+

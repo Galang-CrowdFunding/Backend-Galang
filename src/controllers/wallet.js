@@ -45,6 +45,7 @@ module.exports = {
     try {
       const { userId } = req.params;
       const { amount, idProject } = req.body;
+      const status = req.body.status || 'BERHASIL'
       const { id_dompet, balance } = await walletModel.getWalletById(userId);
       const idDompetHistory = uid();
       const idDonationHistory = uid();
@@ -63,13 +64,14 @@ module.exports = {
         };
         const dataDonationHistory = {
           id_donation_history: idDonationHistory,
+          status : status,
           id_user: userId,
           id_project: idProject,
           amount,
           date_created: currentDate,
         };
         const userDetails = await walletModel.getUserDetails(userId)
-        const total_amount = userDetails[0].total_amount + amount
+        const total_amount = parseFloat(userDetails[0].total_amount) + parseFloat(amount)
         const project_supported = userDetails[0].project_supported + 1
         const dataUser = {
           total_amount,
